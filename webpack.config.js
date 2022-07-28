@@ -39,7 +39,7 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "stepextension",
+      name: "stepextensionocgapifeaturesaction",
       filename: "remoteEntry.js",
       exposes: {
         "./Button": "./src/Button",
