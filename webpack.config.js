@@ -42,7 +42,10 @@ module.exports = {
       name: "stepextensionocgapifeaturesaction",
       filename: "remoteEntry.js",
       exposes: {
-        "./Button": "./src/Button",
+        "./InputUrl": "./src/InputUrl",
+        "./CollectionsDropDown": "./src/CollectionsDropDown",
+        "./DynamicInputs": "./src/DynamicInputs",
+        "./OGCForm": "./src/OGCForm",
       },
       shared: ["react", "react-dom"],
     }),
