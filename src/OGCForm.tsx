@@ -13,8 +13,8 @@ import {
 import * as React from 'react';
 
 export const OGCForm = () => {
-  const [inputs, setInputs] = useState([]);
-  const [collections, setCollections] = useState([]);
+  const [inputs, setInputs] = useState({});
+  const [collections, setCollections] = useState([{description: "Load Collections from a server"}]);
 
   const callBackFromInputUrl = (data) => {
     setCollections(data);
@@ -28,21 +28,16 @@ export const OGCForm = () => {
     <>
       <header
         className="App-header">
-        <p>
-          Introduce the server
-          you want
-          to
-          connect
-          to
-        </p>
       </header>
-      <InputUrl
-        callbackFunction={callBackFromInputUrl}/>
-      <CollectionsDropDown
-        collections={collections}
-        callbackFunction={callBackFromCollections}/>
-      <DynamicInputs
-        inputs={inputs}/>
+      <div className="form-group">
+        <InputUrl
+          callbackFunction={callBackFromInputUrl}/>
+        <CollectionsDropDown
+          collections={collections}
+          callbackFunction={callBackFromCollections}/>
+        <DynamicInputs
+          inputs={inputs}/>
+      </div>
     </>
   )
 };

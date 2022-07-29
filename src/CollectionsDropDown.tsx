@@ -9,7 +9,7 @@ export const CollectionsDropDown = ({ collections, callbackFunction }) => {
           .then(response => response.json())
           .then(data => {
                console.log(data.properties);
-            callbackFunction(data.properties);
+                  callbackFunction(data.properties);
               }
           );
           
@@ -22,8 +22,8 @@ export const CollectionsDropDown = ({ collections, callbackFunction }) => {
           <select name="collection" required onChange={loadQueryable}>
             {collections.map((collection, idx) => {
               return (
-                <option id={collection.id} key={idx}>
-                  {collection.id} - {collection.description}
+                <option id={collection.id} value={collection.id} key={idx}>
+                    [{collection.id}] {collection.description.substring(0,45)} ...
                 </option>
               )
             })}
