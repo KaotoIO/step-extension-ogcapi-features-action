@@ -1,11 +1,23 @@
+
+import {
+  useState
+} from 'react';
 import * as React from 'react';
 
-export const InputUrl = ({ callbackFunction }) => {
+export const InputUrl = ({ callbackFunction, callbackForServerUrl }) => {
+
+    const [url, setUrl] = useState("");
+
+    const callBackUrl = (data) => {
+      setUrl(data.target.value);
+      callbackForServerUrl(data.target.value);
+    }
+
+
     const loadCollections = (event) => {
-          let url = event.target.parentElement.getElementsByClassName("step-extension-ogcapi-features-action-host")[0].value;
-          url = url + "/collections";
+          let fullUrl = url + "/collections";
           
-          fetch(url, {method: "GET", accept: "application/json"})
+          fetch(fullUrl, {method: "GET", accept: "application/json"})
               .then(response => response.json())
               .then(data => {
                    callbackFunction(data.collections);
@@ -16,9 +28,9 @@ export const InputUrl = ({ callbackFunction }) => {
     <>
       <div>
         <small className="form-text text-muted">Enter the server you want to query from and load the collections.</small>
-        <label for="step-extension-ogcapi-features-action-host">Host:</label>
-        <input className="form-control" type="url" id="step-extension-ogcapi-features-action-host" required autoFocus value="https://emotional.byteroad.net"></input>
-        <button onClick={loadCollections}>Load Collections</button>
+        <label for="step-extension-ogcapi-features-action-host">Host</label>
+        <input className="form-control" type="url" onChange={callBackUrl} required autoFocus></input>
+        <button className="form-control" onClick={loadCollections}>Load Collections</button>
       </div>
     </>
   )

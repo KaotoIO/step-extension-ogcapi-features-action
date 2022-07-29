@@ -15,6 +15,7 @@ import * as React from 'react';
 export const OGCForm = () => {
   const [inputs, setInputs] = useState({});
   const [collections, setCollections] = useState([{description: "Load Collections from a server"}]);
+  const [serverUrl, setServerUrl] = useState("");
 
   const callBackFromInputUrl = (data) => {
     setCollections(data);
@@ -24,6 +25,10 @@ export const OGCForm = () => {
     setInputs(data);
   }
 
+  const callBackForServerUrl = (data) => {
+    setServerUrl(data);
+  }
+
   return (
     <>
       <header
@@ -31,9 +36,11 @@ export const OGCForm = () => {
       </header>
       <div className="form-group">
         <InputUrl
-          callbackFunction={callBackFromInputUrl}/>
+          callbackFunction={callBackFromInputUrl}
+          callbackForServerUrl={callBackForServerUrl}/>
         <CollectionsDropDown
           collections={collections}
+          serverUrl={serverUrl}
           callbackFunction={callBackFromCollections}/>
         <DynamicInputs
           inputs={inputs}/>

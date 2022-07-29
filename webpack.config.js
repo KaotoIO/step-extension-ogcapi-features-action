@@ -35,6 +35,13 @@ module.exports = {
           presets: ["@babel/preset-react", "@babel/preset-typescript"],
         },
       },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          'css-loader'
+        ]
+      },
     ],
   },
   plugins: [
