@@ -15,7 +15,6 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   const [collections, setCollections] = useState([]);
   const [serverUrl, setServerUrl] = useState('');
   const [collection, setCollection] = useState('');
-  const [query, setQuery] = useState('');
 
   const saveHandler = () => {
     var values = {};
