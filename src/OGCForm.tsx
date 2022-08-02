@@ -14,20 +14,61 @@ import * as React from 'react';
 
 export const OGCForm = () => {
   const [inputs, setInputs] = useState({});
-  const [collections, setCollections] = useState([{description: "Load Collections from a server"}]);
+  const [collections, setCollections] = useState([]);
   const [serverUrl, setServerUrl] = useState("");
+  const [collection, setCollection] = useState("");
+  const [query, setQuery] = useState("");
 
+  const saveHandler = () => {
+    let step = props.getStep();
+    var values = {};
+    step.parameters.forEach(updateParameter);
+
+    function updateParameter(p) {
+      if(p[key] == "url") {
+        values[key] = serverUrl
+      }
+      else if(p[key] == "collection") {
+        values[key] = collection
+      }
+      else if(p[key] == "bbox") {
+        values[key] = document.getElementsByClassName("step-extension-ogcapi-features-action-bbox")[0].value;
+      }
+      else if(p[key] == "limit") {
+        values[key] = document.getElementsByClassName("step-extension-ogcapi-features-action-limit")[0].value;
+      }
+      else if(p[key] == "split") {
+        values[key] = document.getElementsByClassName("step-extension-ogcapi-features-action-split")[0].value;
+      }
+      else if(p[key] == "query") {
+        let query = "";
+        let children = document.getElementsByClassName("step-extension-ogcapi-features-action-query")[0].children;
+        for (let i = 0; i < children.length; i++) {
+          let element = children.item(i).children.item(1);
+          query = query + "&" + element[data-id] + "=" + element.value;
+        }
+        values[key] = query
+      }
+    }
+    
+    props.saveConfig(values);
+  };
+  
   const callBackFromInputUrl = (data) => {
     setCollections(data);
+    saveHandler();
   }
 
   const callBackFromCollections = (data) => {
     setInputs(data);
+    saveHandler();
   }
 
   const callBackForServerUrl = (data) => {
     setServerUrl(data);
+    saveHandler();
   }
+  
 
   return (
     <>
@@ -41,9 +82,23 @@ export const OGCForm = () => {
         <CollectionsDropDown
           collections={collections}
           serverUrl={serverUrl}
-          callbackFunction={callBackFromCollections}/>
+          callbackFunction={callBackFromCollections}
+          setCollection={setCollection}/>
+        <div>
+          <label>Bounding Box</label>
+          <input className="form-control" type="text" placeholder="-180,-90,180,90" className="step-extension-ogcapi-features-action-bbox"/>
+        </div>
+        <div>
+          <label>Limit</label>
+          <input className="form-control" type="number" min="1" max="10000" placeholder="10" className="step-extension-ogcapi-features-action-limit"/>
+        </div>
         <DynamicInputs
           inputs={inputs}/>
+        <div className="form-check step-extension-ogcapi-features-action-split">
+          <input className="form-check-input" type="checkbox" value=""/>
+          <label className="form-check-label">Split features. When checked, it will return one message per feature instead of the full geoJSON.</label>
+        </div>
+        <button onClick={saveHandler}>Save</button>
       </div>
     </>
   )

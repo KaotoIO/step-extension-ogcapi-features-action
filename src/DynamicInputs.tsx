@@ -6,21 +6,13 @@ export const DynamicInputs = ({ inputs }) => {
     return (
       <>
         <div className="step-extension-ogcapi-features-action-query">
-          <div>
-            <label>Bounding Box</label>
-            <input className="form-control" type="text" id="bbox" placeholder="-180,-90,180,90"/>
-          </div>
-          <div>
-            <label>Limit</label>
-            <input className="form-control" type="number" id="bbox" min="1" max="10000" placeholder="10"/>
-          </div>
           {Object.entries(inputs)
               .filter(([key, value], idx) => !!value.type)
               .map(([key, value], idx) => {
                 return (
                   <div>
-                    <label for="{key}">{value.title}</label>
-                    <input className="form-control" type={value.type} id={key} key={idx} />
+                    <label>{value.title}</label>
+                    <input className="form-control" type={value.type} data-id={key} key={idx} />
                   </div>
                 )
             })
