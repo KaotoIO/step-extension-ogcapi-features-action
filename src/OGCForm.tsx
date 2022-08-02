@@ -85,8 +85,10 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
         <div>
           <label>
             <span>BBOX</span>
-            <br/>        
-            <small className="form-text text-muted">Limit features on the following Bounding Box.</small>
+            <br />
+            <small className="form-text text-muted">
+              Limit features on the following Bounding Box.
+            </small>
           </label>
           <input
             type="text"
@@ -97,7 +99,7 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
         <div>
           <label>
             <span>Limit</span>
-            <br/>        
+            <br />
             <small className="form-text text-muted">Maximum amount of features to return.</small>
           </label>
           <input
@@ -121,3 +123,5 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
     </>
   );
 };
+
+export default OGCForm;
