@@ -5,6 +5,9 @@ const path = require('path');
 
 const deps = require('./package.json').dependencies;
 
+const { NODE_ENV } = process.env;
+const inDevelopment = NODE_ENV === 'development';
+
 module.exports = {
   entry: './src/index',
   mode: 'development',
@@ -52,13 +55,14 @@ module.exports = {
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
- /*   new WebpackRemoteTypesPlugin({
-      remotes: {
-        kaoto: 'kaoto@http://localhost:1337/',
-      },
-      outputDir: './src/types',
-      remoteFileName: '[name]-dts.tgz',
-    }),*/
+    !inDevelopment &&
+      new WebpackRemoteTypesPlugin({
+        remotes: {
+          kaoto: 'kaoto@http://localhost:1337/',
+        },
+        outputDir: './src/types',
+        remoteFileName: '[name]-dts.tgz',
+      }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
