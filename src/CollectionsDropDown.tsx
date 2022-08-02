@@ -18,20 +18,26 @@ export const CollectionsDropDown = ({
   };
 
   return (
-    <>
-      <div>
-        <label>Collection:</label>
-        <select className="form-control" name="collection" required onChange={loadQueryable}>
-          <option value="">Select a collection here</option>
-          {collections.map((collection, idx) => {
-            return (
-              <option id={collection.id} value={collection.id} key={idx}>
-                [{collection.id}] {collection.description.substring(0, 45)} ...
-              </option>
-            );
-          })}
-        </select>
-      </div>
-    </>
+      <>
+        <div>
+          <label>
+            <span>Collection</span>
+            <br/>
+            <small className="form-text text-muted">Select a collection to load queryables.</small>
+          </label>
+          <select  className="form-control" name="collection" required onChange={loadQueryable}>
+            <option value="" >
+                Select a collection here
+            </option>
+            {collections.map((collection, idx) => {
+              return (
+                <option id={collection.id} value={collection.id} key={idx}>
+                    [{collection.id}] {collection.description.substring(0,45)} ...
+                </option>
+              );
+            })}
+          </select>
+        </div>
+      </>
   );
 };

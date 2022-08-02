@@ -84,7 +84,11 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
           setCollection={setCollection}
         />
         <div>
-          <label>Bounding Box</label>
+          <label>
+            <span>BBOX</span>
+            <br/>        
+            <small className="form-text text-muted">Limit features on the following Bounding Box.</small>
+          </label>
           <input
             type="text"
             placeholder="-180,-90,180,90"
@@ -92,7 +96,11 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
           />
         </div>
         <div>
-          <label>Limit</label>
+          <label>
+            <span>Limit</span>
+            <br/>        
+            <small className="form-text text-muted">Maximum amount of features to return.</small>
+          </label>
           <input
             type="number"
             min="1"

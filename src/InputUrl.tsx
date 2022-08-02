@@ -22,20 +22,13 @@ export const InputUrl = ({ callbackFunction, callbackForServerUrl }) => {
   return (
     <>
       <div>
-        <small className="form-text text-muted">
-          Enter the server you want to query from and load the collections.
-        </small>
-        <label for="step-extension-ogcapi-features-action-host">Host</label>
-        <input
-          className="form-control"
-          type="url"
-          onChange={callBackUrl}
-          required
-          autoFocus
-        ></input>
-        <button className="form-control" onClick={loadCollections}>
-          Load Collections
-        </button>
+        <label for="step-extension-ogcapi-features-action-host">
+          <span>Host of the OGC API server</span>
+          <br/>        
+          <small className="form-text text-muted">Enter the url you want to query from and load the collections.</small>
+        </label>
+        <input className="form-control" type="url" onChange={callBackUrl} required autoFocus></input>
+        <button className="form-control" onClick={loadCollections}>Load Collections</button>
       </div>
     </>
   );
