@@ -46,13 +46,13 @@ module.exports = {
       },
       shared: ['react', 'react-dom'],
     }),
-    new WebpackRemoteTypesPlugin({
+ /*   new WebpackRemoteTypesPlugin({
       remotes: {
         kaoto: 'kaoto@http://localhost:1337/',
       },
       outputDir: './src/types',
       remoteFileName: '[name]-dts.tgz',
-    }),
+    }),*/
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
