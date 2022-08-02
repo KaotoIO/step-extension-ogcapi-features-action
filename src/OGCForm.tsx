@@ -71,7 +71,6 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
 
   return (
     <>
-      <header className="App-header"></header>
       <div className="form-group">
         <InputUrl
           callbackFunction={callBackFromInputUrl}
