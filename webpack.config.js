@@ -3,6 +3,8 @@ const WebpackRemoteTypesPlugin = require('webpack-remote-types-plugin').default;
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const path = require('path');
 
+const deps = require('./package.json').dependencies;
+
 module.exports = {
   entry: './src/index',
   mode: 'development',
@@ -44,7 +46,11 @@ module.exports = {
         './DynamicInputs': './src/DynamicInputs',
         './OGCForm': './src/OGCForm',
       },
-      shared: ['react', 'react-dom'],
+      shared: {
+        ...deps,
+        react: { singleton: true, requiredVersion: deps.react },
+        'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
+      },
     }),
  /*   new WebpackRemoteTypesPlugin({
       remotes: {
