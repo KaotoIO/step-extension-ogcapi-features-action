@@ -1,12 +1,8 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const WebpackRemoteTypesPlugin = require('webpack-remote-types-plugin').default;
+// const WebpackRemoteTypesPlugin = require('webpack-remote-types-plugin').default;
 const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 const path = require('path');
-
 const deps = require('./package.json').dependencies;
-
-const { NODE_ENV } = process.env;
-const inDevelopment = NODE_ENV === 'development';
 
 module.exports = {
   entry: './src/index',
@@ -55,14 +51,13 @@ module.exports = {
         'react-dom': { singleton: true, requiredVersion: deps['react-dom'] },
       },
     }),
-    !inDevelopment &&
-      new WebpackRemoteTypesPlugin({
-        remotes: {
-          kaoto: 'kaoto@http://localhost:1337/',
-        },
-        outputDir: './src/types',
-        remoteFileName: '[name]-dts.tgz',
-      }),
+    // new WebpackRemoteTypesPlugin({
+    //   remotes: {
+    //     kaoto: 'kaoto@http://localhost:1337/',
+    //   },
+    //   outputDir: './src/types',
+    //   remoteFileName: '[name]-dts.tgz',
+    // }),
     new HtmlWebpackPlugin({
       template: './public/index.html',
     }),
