@@ -1,22 +1,14 @@
 import * as React from 'react';
-// @ts-ignore
-import css from './App.css';
-// @ts-ignore
-import bootstrap from "./bootstrap";
-import {OGCForm} from './OGCForm';
-// @ts-ignore
+import './App.css';
+import { OGCForm } from './OGCForm';
 import 'bootstrap/dist/css/bootstrap.css';
 
-bootstrap(() => {});
-function App() {
+export const App = () => {
   return (
     <div className="App">
-        <OGCForm />
+      <OGCForm />
     </div>
   );
-}
+};
 
 export default App;
-
-
-
