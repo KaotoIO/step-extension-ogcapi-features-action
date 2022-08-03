@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { InputUrl } from './InputUrl';
 import { CollectionsDropDown } from './CollectionsDropDown';
 import { DynamicInputs } from './DynamicInputs';
@@ -36,38 +36,48 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   const [limit, setLimit] = useState(initialValues['limit']);
   const [split, setSplit] = useState(initialValues['split']);
   const [query, setQuery] = useState(initialValues['query']);
-  const localConfig = useRef({});
 
   console.log(step);
   console.log(initialValues);
   console.log(serverUrl);
 
   const saveHandler = () => {
-    let values = {};
-    step?.parameters?.forEach(updateParameter);
+    // let values = {};
+    // step?.parameters?.forEach(updateParameter);
 
-    // step?.parameters?.map((p) => {
-    //   const keyName = p.title;
-    //   // values[keyName] =
-    //   // map keyName to
-    //   // if(p.value)
-    // });
+    let values = {
+      url: serverUrl,
+      collection: collection,
+      bbox: bbox,
+      limit: limit,
+      split: split,
+      query: query,
+    };
 
-    function updateParameter(p) {
-      if (p['title'] == 'url') {
-        values[p['title']] = serverUrl;
-      } else if (p['title'] == 'collection') {
-        values[p['title']] = collection;
-      } else if (p['title'] == 'bbox') {
-        values[p['title']] = bbox;
-      } else if (p['title'] == 'limit') {
-        values[p['title']] = limit;
-      } else if (p['title'] == 'split') {
-        values[p['title']] = split;
-      } else if (p['title'] == 'query') {
-        values[p['title']] = query;
+    // delete undefined values
+    Object.keys(values).forEach((key) => {
+      if (!values[key] || values[key] === '') {
+        delete values[key];
       }
-    }
+    });
+
+    // console.log('values: ', values);
+
+    // function updateParameter(p) {
+    //   if (p['title'] == 'url') {
+    //     values[p['title']] = serverUrl;
+    //   } else if (p['title'] == 'collection') {
+    //     values[p['title']] = collection;
+    //   } else if (p['title'] == 'bbox') {
+    //     values[p['title']] = bbox;
+    //   } else if (p['title'] == 'limit') {
+    //     values[p['title']] = limit;
+    //   } else if (p['title'] == 'split') {
+    //     values[p['title']] = split;
+    //   } else if (p['title'] == 'query') {
+    //     values[p['title']] = query;
+    //   }
+    // }
 
     if (saveConfig) {
       saveConfig(values);
@@ -93,7 +103,6 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
     // console.log('data: ', data);
     const encoded = encodeURI(data);
     setQuery(encoded);
-    console.log('encoded: ', encoded);
   };
 
   return (
@@ -117,7 +126,13 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
               Limit features on the following Bounding Box.
             </small>
           </label>
-          <input type="text" placeholder="-180,-90,180,90" onChange={setBBOX} />
+          <input
+            type="text"
+            placeholder="-180,-90,180,90"
+            onChange={(e) => {
+              setBBOX(e.target.value);
+            }}
+          />
         </div>
         <div>
           <label>
@@ -126,11 +141,26 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
             <small className="form-text text-muted">Maximum amount of features to return.</small>
             <br />
           </label>
-          <input type="number" min="1" max="10000" placeholder="10" onChange={setLimit} />
+          <input
+            type="number"
+            min="1"
+            max="10000"
+            placeholder="10"
+            onChange={(e) => {
+              setLimit(e.target.value);
+            }}
+          />
         </div>
         <DynamicInputs handleDynamicInputs={handleDynamicInputs} inputs={inputs} />
         <div className="form-check step-extension-ogcapi-features-action-split">
-          <input className="form-check-input" type="checkbox" value="" onChange={setSplit} />
+          <input
+            className="form-check-input"
+            type="checkbox"
+            value=""
+            onChange={(e) => {
+              setSplit(e.target.value);
+            }}
+          />
           <label className="form-check-label">
             <span>Split features.</span>
             <br />

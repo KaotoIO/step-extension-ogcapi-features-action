@@ -4,7 +4,7 @@ export const DynamicInputs = ({ handleDynamicInputs, inputs }) => {
   const [localValues, setLocalValues] = React.useState({});
 
   const handleChange = (e) => {
-    // console.log('event: ', e.target.value);
+    console.log('event: ', e.target.value);
     if (!e.target.value) return;
     let name = e.target.name;
     setLocalValues({ ...localValues, [name]: e.target.value });
