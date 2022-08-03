@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { InputUrl } from './InputUrl';
 import { CollectionsDropDown } from './CollectionsDropDown';
 import { DynamicInputs } from './DynamicInputs';
@@ -10,8 +10,16 @@ export interface IOGCForm {
   step?: IStepProps;
 }
 
+function encodeURI(data) {
+  return Object.keys(data)
+    .map(function (key) {
+      return [key, data[key]].map(encodeURIComponent).join('=');
+    })
+    .join('&');
+}
+
 export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
-  var initialValues = {};
+  let initialValues = {};
   step?.parameters?.forEach((p) => {
     if (p['value']) {
       initialValues[p['title']] = p['value'];
@@ -28,7 +36,7 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   const [limit, setLimit] = useState(initialValues['limit']);
   const [split, setSplit] = useState(initialValues['split']);
   const [query, setQuery] = useState(initialValues['query']);
-  const [dynamicInputs, setDynamicInputs] = useState({});
+  const localConfig = useRef({});
 
   console.log(step);
   console.log(initialValues);
@@ -37,6 +45,13 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   const saveHandler = () => {
     let values = {};
     step?.parameters?.forEach(updateParameter);
+
+    // step?.parameters?.map((p) => {
+    //   const keyName = p.title;
+    //   // values[keyName] =
+    //   // map keyName to
+    //   // if(p.value)
+    // });
 
     function updateParameter(p) {
       if (p['title'] == 'url') {
@@ -75,9 +90,10 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   };
 
   const handleDynamicInputs = (data) => {
-    if (data === dynamicInputs) return;
     // console.log('data: ', data);
-    setDynamicInputs(data);
+    const encoded = encodeURI(data);
+    setQuery(encoded);
+    console.log('encoded: ', encoded);
   };
 
   return (
