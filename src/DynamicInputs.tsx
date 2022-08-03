@@ -20,7 +20,7 @@ export const DynamicInputs = ({ handleDynamicInputs, inputs }) => {
               .filter(([key, value], idx) => !!value.type)
               .map(([key, value], idx) => {
                 return (
-                  <div>
+                  <div key={idx}>
                     <label>{value.title}</label>
                     <input
                       className="form-control"
