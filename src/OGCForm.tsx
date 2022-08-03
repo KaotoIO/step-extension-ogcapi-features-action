@@ -11,16 +11,14 @@ export interface IOGCForm {
 }
 
 export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
-
   var initialValues = {};
-  step?.parameters?.forEach(p => {
+  step?.parameters?.forEach((p) => {
     if (p['value']) {
       initialValues[p['title']] = p['value'];
     } else {
       initialValues[p['title']] = null;
     }
   });
-
 
   const [inputs, setInputs] = useState({});
   const [collections, setCollections] = useState([]);
@@ -30,13 +28,14 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
   const [limit, setLimit] = useState(initialValues['limit']);
   const [split, setSplit] = useState(initialValues['split']);
   const [query, setQuery] = useState(initialValues['query']);
+  const [dynamicInputs, setDynamicInputs] = useState({});
 
   console.log(step);
   console.log(initialValues);
   console.log(serverUrl);
 
   const saveHandler = () => {
-    var values = {};
+    let values = {};
     step?.parameters?.forEach(updateParameter);
 
     function updateParameter(p) {
@@ -75,6 +74,12 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
     //saveHandler();
   };
 
+  const handleDynamicInputs = (data) => {
+    if (data === dynamicInputs) return;
+    // console.log('data: ', data);
+    setDynamicInputs(data);
+  };
+
   return (
     <>
       <div className="form-group">
@@ -96,11 +101,7 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
               Limit features on the following Bounding Box.
             </small>
           </label>
-          <input
-            type="text"
-            placeholder="-180,-90,180,90"
-            onChange={setBBOX}
-          />
+          <input type="text" placeholder="-180,-90,180,90" onChange={setBBOX} />
         </div>
         <div>
           <label>
@@ -109,24 +110,17 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
             <small className="form-text text-muted">Maximum amount of features to return.</small>
             <br />
           </label>
-          <input
-            type="number"
-            min="1"
-            max="10000"
-            placeholder="10"
-            onChange={setLimit}
-          />
+          <input type="number" min="1" max="10000" placeholder="10" onChange={setLimit} />
         </div>
-        <DynamicInputs inputs={inputs} />
+        <DynamicInputs handleDynamicInputs={handleDynamicInputs} inputs={inputs} />
         <div className="form-check step-extension-ogcapi-features-action-split">
-          <input className="form-check-input" type="checkbox" value="" 
-            onChange={setSplit} />
+          <input className="form-check-input" type="checkbox" value="" onChange={setSplit} />
           <label className="form-check-label">
             <span>Split features.</span>
-            <br/>
+            <br />
             <small className="form-text text-muted">
-            When checked, it will return one message per feature instead of the full
-            geoJSON.</small>
+              When checked, it will return one message per feature instead of the full geoJSON.
+            </small>
           </label>
         </div>
         <button onClick={saveHandler}>Save</button>
