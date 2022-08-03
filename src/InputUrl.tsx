@@ -34,7 +34,6 @@ export const InputUrl = ({ callbackFunction, callbackForServerUrl }) => {
           type="url"
           onChange={callBackUrl}
           required
-          autoFocus
         ></input>
         <button className="form-control" onClick={loadCollections}>
           Load Collections

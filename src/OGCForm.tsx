@@ -11,61 +11,68 @@ export interface IOGCForm {
 }
 
 export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
+
+  var initialValues = {};
+  step?.parameters?.forEach(p => {
+    if (p['value']) {
+      initialValues[p['title']] = p['value'];
+    } else {
+      initialValues[p['title']] = null;
+    }
+  });
+
+
   const [inputs, setInputs] = useState({});
   const [collections, setCollections] = useState([]);
-  const [serverUrl, setServerUrl] = useState('');
-  const [collection, setCollection] = useState('');
+  const [serverUrl, setServerUrl] = useState(initialValues['url']);
+  const [collection, setCollection] = useState(initialValues['collection']);
+  const [bbox, setBBOX] = useState(initialValues['bbox']);
+  const [limit, setLimit] = useState(initialValues['limit']);
+  const [split, setSplit] = useState(initialValues['split']);
+  const [query, setQuery] = useState(initialValues['query']);
+
+  console.log(step);
+  console.log(initialValues);
+  console.log(serverUrl);
 
   const saveHandler = () => {
     var values = {};
     step?.parameters?.forEach(updateParameter);
 
     function updateParameter(p) {
-      if (p[key] == 'url') {
-        values[key] = serverUrl;
-      } else if (p[key] == 'collection') {
-        values[key] = collection;
-      } else if (p[key] == 'bbox') {
-        values[key] = document.getElementsByClassName(
-          'step-extension-ogcapi-features-action-bbox'
-        )[0].value;
-      } else if (p[key] == 'limit') {
-        values[key] = document.getElementsByClassName(
-          'step-extension-ogcapi-features-action-limit'
-        )[0].value;
-      } else if (p[key] == 'split') {
-        values[key] = document.getElementsByClassName(
-          'step-extension-ogcapi-features-action-split'
-        )[0].value;
-      } else if (p[key] == 'query') {
-        let query = '';
-        let children = document.getElementsByClassName(
-          'step-extension-ogcapi-features-action-query'
-        )[0].children;
-        for (let i = 0; i < children.length; i++) {
-          let element = children.item(i).children.item(1);
-          query = query + '&' + element[data - id] + '=' + element.value;
-        }
-        values[key] = query;
+      if (p['title'] == 'url') {
+        values[p['title']] = serverUrl;
+      } else if (p['title'] == 'collection') {
+        values[p['title']] = collection;
+      } else if (p['title'] == 'bbox') {
+        values[p['title']] = bbox;
+      } else if (p['title'] == 'limit') {
+        values[p['title']] = limit;
+      } else if (p['title'] == 'split') {
+        values[p['title']] = split;
+      } else if (p['title'] == 'query') {
+        values[p['title']] = query;
       }
     }
 
-    if (saveConfig) saveConfig(values);
+    if (saveConfig) {
+      saveConfig(values);
+    }
   };
 
   const callBackFromInputUrl = (data) => {
     setCollections(data);
-    saveHandler();
+    //saveHandler();
   };
 
   const callBackFromCollections = (data) => {
     setInputs(data);
-    saveHandler();
+    //saveHandler();
   };
 
   const callBackForServerUrl = (data) => {
     setServerUrl(data);
-    saveHandler();
+    //saveHandler();
   };
 
   return (
@@ -92,7 +99,7 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
           <input
             type="text"
             placeholder="-180,-90,180,90"
-            className="form-control step-extension-ogcapi-features-action-bbox"
+            onChange={setBBOX}
           />
         </div>
         <div>
@@ -100,21 +107,26 @@ export const OGCForm = ({ saveConfig, step }: IOGCForm) => {
             <span>Limit</span>
             <br />
             <small className="form-text text-muted">Maximum amount of features to return.</small>
+            <br />
           </label>
           <input
             type="number"
             min="1"
             max="10000"
             placeholder="10"
-            className="form-control step-extension-ogcapi-features-action-limit"
+            onChange={setLimit}
           />
         </div>
         <DynamicInputs inputs={inputs} />
         <div className="form-check step-extension-ogcapi-features-action-split">
-          <input className="form-check-input" type="checkbox" value="" />
+          <input className="form-check-input" type="checkbox" value="" 
+            onChange={setSplit} />
           <label className="form-check-label">
-            Split features. When checked, it will return one message per feature instead of the full
-            geoJSON.
+            <span>Split features.</span>
+            <br/>
+            <small className="form-text text-muted">
+            When checked, it will return one message per feature instead of the full
+            geoJSON.</small>
           </label>
         </div>
         <button onClick={saveHandler}>Save</button>
